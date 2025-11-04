@@ -3,14 +3,15 @@ package com.pluralsight;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the  gutter.
 public class Program {
     public static void main(String[] args) {
 
-List<Person> persons = new ArrayList<>();
 
+        List<Person> persons = new ArrayList<>();
         persons.add(new Person("Ethan","Brooks",24));
         persons.add(new Person("Eric","Martinez",17));
         persons.add(new Person("Jennifer","Cruz",19));
@@ -23,20 +24,26 @@ List<Person> persons = new ArrayList<>();
         persons.add(new Person("Lucas","Collins",14));
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Search for first or last name type in:");
-        String searchResults = scanner.nextLine().toLowerCase();
 
-        //new list
-        List<Person> matches = new ArrayList<>();
+        while(true) {
+            System.out.println("Search for first or last name ( type exit to quit): ");
+            String searchResults = scanner.nextLine().toLowerCase();
 
-        for(Person p : persons) {
-            if(p.getFirstName().toLowerCase().contains(searchResults) ||
-            p.getLastName().toLowerCase().contains(searchResults)) {
-                matches.add(p);
-                System.out.println(p.getFirstName() + " " + p.getLastName());
-
+            if(searchResults.equals("exit")) {
+                break;
             }
 
+            List<Person> matches = persons.stream()
+                    .filter(p->p.getFullName().toLowerCase().contains(searchResults))
+                    .toList();
+
+                matches.forEach(p -> System.out.println(p.getFullName() + " Age " + p.getAge()));
+
+
         }
+
+//
+//
+//
     }
 }
